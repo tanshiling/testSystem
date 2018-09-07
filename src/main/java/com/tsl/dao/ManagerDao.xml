@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="com.tsl.dao.ManagerDao">
+
+    <select id="login" resultType="manager" parameterType="map">
+        select * from manager where mname = #{mname} and mpassword = #{mpassword}
+    </select>
+
+    <select id="getAllManager"  resultType="manager">
+        select * from manager
+    </select>
+
+    <insert id="addManager" parameterType="manager">
+        insert into manager values (null,#{mname},#{mpassword},#{mtel},#{maddress},#{mm})
+    </insert>
+
+    <update id="updateManager" parameterType="manager">
+        update manager set mname = #{mname},mpassword = #{mpassword}, mtel = #{mtel},maddress = #{maddress}, mm = #{mm} where mid = #{mid}
+    </update>
+
+    <delete id="deleteManager" parameterType="int">
+        delete from manager where mid = #{mid}
+    </delete>
+
+    <select id="findManagerById" parameterType="int" resultType="manager">
+        select * from manager where mid = #{mid}
+    </select>
+
+</mapper>

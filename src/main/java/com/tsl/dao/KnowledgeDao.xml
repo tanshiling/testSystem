@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="com.tsl.dao.KnowledgeDao">
+
+    <select id="getAllKnowledge"  resultType="knowledgeVo">
+        SELECT knowledge.kno,chapter.cname,knowledge.kname FROM knowledge,chapter WHERE chapter.cno=knowledge.cno
+    </select>
+
+    <insert id="addKnowledge" parameterType="knowledgeVo">
+        insert into knowledge values (null,(SELECT chapter.cno FROM chapter WHERE chapter.cname = #{cname}),#{kname});
+    </insert>
+
+    <delete id="deleteKnowledge" parameterType="int">
+        delete from knowledge where kno = #{kno}
+    </delete>
+
+    <update id="updateKnowledge" parameterType="knowledgeVo">
+        UPDATE knowledge SET cno = (SELECT chapter.cno FROM chapter WHERE cname = #{cname}) ,kname = #{kname} WHERE kno = #{kno}
+    </update>
+
+    <select id="findKnowledgeByKno" parameterType="int" resultType="knowledgeVo">
+        SELECT * from knowledge,chapter WHERE chapter.cno=knowledge.cno AND knowledge.kno = #{kno}
+    </select>
+
+</mapper>

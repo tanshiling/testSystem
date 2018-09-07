@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="com.tsl.dao.JudgeQuesDao">
+
+    <!--<select id="getAllJudgeQues"  resultType="judgeQues">
+        select * from judgeques
+    </select>-->
+    <select id="getAllJudgeQues"  resultType="judgeQuesVo">
+        SELECT judgeques.jid,knowledge.kname,judgeques.jcontent,judgeques.janswer,judgeques.jlevel FROM judgeques,knowledge WHERE judgeques.kno=knowledge.kno
+    </select>
+
+
+    <!--<insert id="addJudgeQues" parameterType="judgeQues">
+        insert into judgeques values (null,#{kname},#{jcontent},#{janswer},#{jlevel})
+    </insert>-->
+<!--
+    <select id="findKno" parameterType="judgeQuesVo">
+        select knowledge.kno from knowledge where knowledge.kname = #{kname}
+    </select>
+  -->  <insert id="addJudgeQues" parameterType="judgeQuesVo">
+        insert into judgeques values (null,(SELECT knowledge.kno FROM knowledge WHERE knowledge.kname = #{kname}),#{jcontent},#{janswer},#{jlevel});
+    </insert>
+
+    <!--
+
+        <update id="updateJudgeQues" parameterType="judgeQues">
+            update judgeques set kno = #{kno}, jcontent = #{jcontent}, janswer = #{janswer}, jlevel = #{jlevel} where jid = #{jid}
+        </update>
+    -->
+
+    <update id="updateJudgeQues" parameterType="judgeQuesVo">
+        <!--update judgeques set judgeques.kno = (SELECT kno FROM knowledge WHERE kname = #{kname}),
+        judgeques.jcontent = #{jcontent}, judgeques.janswer = #{janswer}, judgeques.jlevel = #{jlevel} where judgeques.jid = #{jid}
+-->
+        update judgeques set judgeques.kno = (SELECT kno FROM knowledge WHERE kname = #{kname}),jcontent = #{jcontent}, janswer = #{janswer}, jlevel = #{jlevel} where jid = #{jid}
+
+    </update>
+
+
+
+    <delete id="deleteJudgeQues" parameterType="int">
+        delete from judgeques where jid = #{jid}
+    </delete>
+
+    <!--<select id="findJudgeQuesById" parameterType="int" resultType="judgeQues">
+        select * from judgeques where jid = #{jid}
+    </select>
+-->
+    <select id="findJudgeQuesById" parameterType="int" resultType="judgeQuesVo">
+        <!--select judgeques.jid,knowledge.kname,judgeques.jcontent,judgeques.janswer,judgeques.jlevel from judgeques,knowledge where judgeques.kno=knowledge.kno AND judgeques.jid = #{jid}-->
+
+        select * from judgeques,knowledge where judgeques.kno=knowledge.kno AND judgeques.jid = #{jid};
+    </select>
+</mapper>

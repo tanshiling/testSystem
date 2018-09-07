@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="com.tsl.dao.UserDao">
+
+    <select id="login" parameterType="HashMap" resultType="user">
+        select * from student where stname = #{stname} and stpassword = #{stpassword}
+    </select>
+    
+</mapper>

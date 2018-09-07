@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="com.tsl.dao.ChapterDao">
+
+    <select id="getAllChapter"  resultType="chapter">
+        select * from chapter
+    </select>
+
+    <insert id="addChapter" parameterType="chapter">
+        insert into chapter values (null,#{cname})
+    </insert>
+
+    <delete id="deleteChapter" parameterType="int">
+        delete from chapter where cno = #{cno}
+    </delete>
+
+    <select id="countKnows" parameterType="int">
+        SELECT count(*) FROM chapter,knowledge WHERE chapter.cno=knowledge.cno AND chapter.cno=#{cno};
+    </select>
+
+    <update id="updateChapter" parameterType="chapter">
+        update chapter set cname = #{cname} where cno = #{cno}
+    </update>
+
+    <select id="findChapterByNo" parameterType="int" resultType="chapter">
+        select * from chapter where cno = #{cno}
+    </select>
+
+</mapper>

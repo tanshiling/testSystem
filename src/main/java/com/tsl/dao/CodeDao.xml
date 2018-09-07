@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="com.tsl.dao.CodeDao">
+
+    <select id="getAllCode"  resultType="codeVo">
+        SELECT code.cid,knowledge.kname,code.ccontent,code.cbasis,code.canswer,code.canswerp,code.clevel FROM code,knowledge WHERE code.kno=knowledge.kno
+    </select>
+
+    <insert id="addCode" parameterType="codeVo">
+        insert into code values (null,(SELECT knowledge.kno FROM knowledge WHERE knowledge.kname = #{kname}),#{ccontent},#{cbasis},#{canswer},#{canswerp},#{clevel});
+    </insert>
+
+    <update id="updateCode" parameterType="codeVo">
+        update code set code.kno = (SELECT kno FROM knowledge WHERE kname = #{kname}),ccontent = #{ccontent}, cbasis = #{cbasis},canswer = #{canswer},canswerp = #{canswerp}, clevel = #{clevel} where cid = #{cid}
+    </update>
+
+    <delete id="deleteCode" parameterType="int">
+        delete from code where cid = #{cid}
+    </delete>
+
+    <select id="findCodeById" parameterType="int" resultType="codeVo">
+        select * from code,knowledge where code.kno=knowledge.kno AND code.cid = #{cid};
+    </select>
+
+</mapper>

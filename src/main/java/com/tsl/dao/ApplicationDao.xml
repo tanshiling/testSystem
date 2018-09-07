@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="com.tsl.dao.ApplicationDao">
+
+    <select id="getAllApplication"  resultType="applicationVo">
+        SELECT application.aid,knowledge.kname,application.acontent,application.apicture,application.abasis,application.aanswer,application.aanswerp,application.alevel FROM application,knowledge WHERE application.kno=knowledge.kno
+
+    </select>
+
+    <insert id="addApplication" parameterType="applicationVo">
+        insert into application values (null,(SELECT knowledge.kno FROM knowledge WHERE knowledge.kname = #{kname}),#{acontent},#{apicture},#{abasis},#{aanswer},#{aanswerp},#{alevel})
+    </insert>
+
+    <update id="updateApplication" parameterType="applicationVo">
+        update application set application.kno = (SELECT kno FROM knowledge WHERE kname = #{kname}), acontent = #{acontent},apicture =#{apicture}, abasis = #{abasis},aanswer = #{aanswer}, aanswerp = #{aanswerp},alevel = #{alevel} where aid = #{aid}
+    </update>
+
+    <delete id="deleteApplication" parameterType="int">
+        delete from application where aid = #{aid}
+    </delete>
+
+    <select id="findApplicationById" parameterType="int" resultType="applicationVo">
+        select * from application,knowledge where application.kno=knowledge.kno AND aid = #{aid}
+    </select>
+
+</mapper>

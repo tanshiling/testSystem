@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="com.tsl.dao.InsertQuesDao">
+
+    <select id="getAllInsertQues"  resultType="insertQuesVo">
+        SELECT insertques.iid,knowledge.kname,insertques.icontent,insertques.ianswer,insertques.ilevel FROM insertques,knowledge WHERE insertques.kno=knowledge.kno
+    </select>
+
+    <insert id="addInsertQues" parameterType="insertQuesVo">
+        insert into insertques values (null,(SELECT knowledge.kno FROM knowledge WHERE knowledge.kname = #{kname}),#{icontent},#{ianswer},#{ilevel});
+    </insert>
+
+    <update id="updateInsertQues" parameterType="InsertQuesVo">
+        update insertques set insertques.kno = (SELECT kno FROM knowledge WHERE kname = #{kname}),icontent = #{icontent}, ianswer = #{ianswer}, ilevel = #{ilevel} where iid = #{iid}
+    </update>
+
+    <delete id="deleteInsertQues" parameterType="int">
+        delete from insertques where iid = #{iid}
+    </delete>
+
+    <select id="findInsertQuesById" parameterType="int" resultType="insertQuesVo">
+        select * from insertques,knowledge where insertques.kno=knowledge.kno AND insertques.iid = #{iid};
+    </select>
+
+</mapper>

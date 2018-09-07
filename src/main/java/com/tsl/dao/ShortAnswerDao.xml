@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="com.tsl.dao.ShortAnswerDao">
+
+    <select id="getAllShortAnswer"  resultType="shortAnswerVo">
+        SELECT shortanswer.said,knowledge.kname,shortanswer.sacontent,shortanswer.sabasis,shortanswer.saanswer,shortanswer.salevel FROM shortanswer,knowledge WHERE shortanswer.kno=knowledge.kno
+    </select>
+
+    <insert id="addShortAnswer" parameterType="shortAnswerVo">
+        insert into shortanswer values (null,(SELECT knowledge.kno FROM knowledge WHERE knowledge.kname = #{kname}),#{sacontent},#{sabasis},#{saanswer},#{salevel});
+    </insert>
+
+    <update id="updateShortAnswer" parameterType="shortAnswerVo">
+        update shortanswer set shortanswer.kno = (SELECT kno FROM knowledge WHERE kname = #{kname}),sacontent = #{sacontent}, sabasis = #{sabasis},saanswer = #{saanswer}, salevel = #{salevel} where said = #{said}
+    </update>
+
+    <delete id="deleteShortAnswer" parameterType="int">
+        delete from shortanswer where said = #{said}
+    </delete>
+
+    <select id="findShortAnswerById" parameterType="int" resultType="shortAnswerVo">
+        select * from shortanswer,knowledge where shortanswer.kno=knowledge.kno AND shortanswer.said = #{said};
+    </select>
+
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "mybatis-3-mapper.dtd">
+<mapper namespace="com.tsl.dao.SelectQuesDao">
+
+    <select id="getAllSelectQues"  resultType="selectQuesVo">
+        SELECT selectques.sid,knowledge.kname,selectques.scontent,selectques.sa,selectques.sb,selectques.sc,selectques.sd,selectques.sanswer,selectques.slevel FROM selectques,knowledge WHERE selectques.kno=knowledge.kno
+    </select>
+
+    <insert id="addSelectQues" parameterType="selectQuesVo">
+        insert into selectques values (null,(SELECT knowledge.kno FROM knowledge WHERE knowledge.kname = #{kname}),#{scontent},#{sa},#{sb},#{sc},#{sd},#{sanswer},#{slevel});
+    </insert>
+
+    <update id="updateSelectQues" parameterType="selectQuesVo">
+        update selectques set selectques.kno = (SELECT kno FROM knowledge WHERE kname = #{kname}),scontent = #{scontent}, sa = #{sa}, sb = #{sb}, sc = #{sc}, sd = #{sd}, sanswer = #{sanswer}, slevel = #{slevel} where sid = #{sid}
+    </update>
+
+    <delete id="deleteSelectQues" parameterType="int">
+        delete from selectques where sid = #{sid}
+    </delete>
+
+    <select id="findSelectQuesById" parameterType="int" resultType="selectQuesVo">
+        select * from selectques,knowledge where selectques.kno=knowledge.kno AND selectques.sid = #{sid};
+    </select>
+
+</mapper>
